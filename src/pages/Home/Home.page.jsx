@@ -1,38 +1,37 @@
-import React, { useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-
-import { useAuth } from '../../providers/Auth';
+import React, { useState, useEffect } from 'react';
+import { Grid } from '@material-ui/core';
+import { searchVideos } from '../../services/youtubeService.tsx';
+import CustomCard from '../../components/Card';
 import './Home.styles.css';
 
 function HomePage() {
-  const history = useHistory();
-  const sectionRef = useRef(null);
-  const { authenticated, logout } = useAuth();
+  const [ytVideos, setYtVideos] = useState([]);
+  const [searchParam] = useState('ibai ciego');
 
-  function deAuthenticate(event) {
-    event.preventDefault();
-    logout();
-    history.push('/');
-  }
-
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await searchVideos(searchParam);
+      setYtVideos(response);
+    };
+    fetchData();
+  }, [searchParam]);
   return (
-    <section className="homepage" ref={sectionRef}>
-      <h1>Hello stranger!</h1>
-      {authenticated ? (
-        <>
-          <h2>Good to have you back</h2>
-          <span>
-            <Link to="/" onClick={deAuthenticate}>
-              ← logout
-            </Link>
-            <span className="separator" />
-            <Link to="/secret">show me something cool →</Link>
-          </span>
-        </>
-      ) : (
-        <Link to="/login">let me in →</Link>
-      )}
-    </section>
+    <>
+      <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
+        {ytVideos &&
+          ytVideos.map((video) => {
+            return (
+              <CustomCard
+                key={video.id.videoId}
+                idVideo={video.id.videoId}
+                title={video.snippet.title}
+                content={video.snippet.description}
+                thumbnailSrc={video.snippet.thumbnails.high.url}
+              />
+            );
+          })}
+      </Grid>
+    </>
   );
 }
 
