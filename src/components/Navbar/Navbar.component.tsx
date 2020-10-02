@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { fade, makeStyles, createStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -10,9 +10,10 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { Link, useHistory } from 'react-router-dom';
+import YoutubeContext from '../../providers/Youtube';
+import { searchVideos } from '../../services/youtubeService';
 import { useAuth } from '../../providers/Auth';
 
 const useStyles = makeStyles((theme) =>
@@ -85,10 +86,16 @@ const useStyles = makeStyles((theme) =>
 const Navbar = () => {
   const classes = useStyles();
   const history = useHistory();
+  const { setVideos } = useContext(YoutubeContext);
+  const [searchParam, setSearchParam] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { authenticated, logout } = useAuth();
-
   const isMenuOpen = Boolean(anchorEl);
+
+  const fetchData = async () => {
+    const response = await searchVideos(searchParam);
+    setVideos(response);
+  };
 
   function deAuthenticate(event: React.MouseEvent<HTMLElement>) {
     event.preventDefault();
@@ -143,11 +150,21 @@ const Navbar = () => {
             </div>
             <InputBase
               placeholder="Search…"
+              value={searchParam}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ 'aria-label': 'search' }}
+              onChange={(e) => {
+                setSearchParam(e.currentTarget.value);
+              }}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  fetchData();
+                  history.push('/');
+                  e.preventDefault();
+                }
+              }}
             />
           </div>
           <div className={classes.grow} />
