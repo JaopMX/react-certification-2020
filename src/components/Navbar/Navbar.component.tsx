@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) =>
         display: 'block',
       },
     },
+    username: {
+      marginLeft: theme.spacing(1),
+    },
     search: {
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
@@ -89,7 +92,7 @@ const Navbar = () => {
   const { setVideos } = useContext(YoutubeContext);
   const [searchParam, setSearchParam] = useState('');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { authenticated, logout } = useAuth();
+  const { authenticated, user, logout } = useAuth();
   const isMenuOpen = Boolean(anchorEl);
 
   const fetchData = async () => {
@@ -125,6 +128,11 @@ const Navbar = () => {
       <MenuItem onClick={handleMenuClose}>
         <Link to="/" className={classes.menuLink}>
           Home
+        </Link>
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/favorites" className={classes.menuLink}>
+          Favorites
         </Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
@@ -179,6 +187,11 @@ const Navbar = () => {
                 color="inherit"
               >
                 <AccountCircle />
+                {user && (
+                  <Typography className={classes.username} variant="h6" noWrap>
+                    {user.name}
+                  </Typography>
+                )}
               </IconButton>
             ) : (
               <Link to="/login">Log in</Link>

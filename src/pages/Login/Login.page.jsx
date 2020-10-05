@@ -1,17 +1,15 @@
-import React from 'react';
-import { useHistory } from 'react-router';
-
+import React, { useState } from 'react';
 import { useAuth } from '../../providers/Auth';
 import './Login.styles.css';
 
 function LoginPage() {
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
   const { login } = useAuth();
-  const history = useHistory();
 
   function authenticate(event) {
     event.preventDefault();
-    login();
-    history.push('/secret');
+    login(user, password);
   }
 
   return (
@@ -20,14 +18,30 @@ function LoginPage() {
       <form onSubmit={authenticate} className="login-form">
         <div className="form-group">
           <label htmlFor="username">
-            <strong>username </strong>
-            <input required type="text" id="username" />
+            <strong>Username </strong>
+            <input
+              required
+              type="text"
+              id="username"
+              value={user}
+              onChange={(e) => {
+                setUser(e.target.value);
+              }}
+            />
           </label>
         </div>
         <div className="form-group">
           <label htmlFor="password">
             <strong>password </strong>
-            <input required type="password" id="password" />
+            <input
+              required
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
           </label>
         </div>
         <button type="submit">login</button>
