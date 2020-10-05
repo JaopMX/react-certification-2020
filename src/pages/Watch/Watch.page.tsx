@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { relatedVideos } from '../../services/youtubeService';
 import SmallCard from '../../components/SmallCard';
+import VideoInfo from '../../components/VideoInfo';
 
 interface ParamTypes {
   videoId: string;
@@ -14,8 +15,8 @@ const WatchPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await relatedVideos(videoId);
-      setRelated(response);
+      const relatedResponse = await relatedVideos(videoId);
+      setRelated(relatedResponse);
     };
     fetchData();
   }, [videoId]);
@@ -32,17 +33,18 @@ const WatchPage = () => {
           src={`https://www.youtube.com/embed/${videoId}?controls=0&autoplay=1}`}
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         />
+        <VideoInfo videoId={videoId} />
       </Grid>
       <Grid item xs={3}>
         {related !== [] &&
-          related?.map((video) => {
+          related?.map((item) => {
             return (
               <SmallCard
-                key={video.id.videoId}
-                title={video.snippet.title}
-                subtitle={video.snippet.channelTitle}
-                thumbnailSrc={video.snippet.thumbnails.medium.url}
-                idVideo={video.id.videoId}
+                key={item.id.videoId}
+                title={item.snippet.title}
+                subtitle={item.snippet.channelTitle}
+                thumbnailSrc={item.snippet.thumbnails.medium.url}
+                idVideo={item.id.videoId}
               />
             );
           })}

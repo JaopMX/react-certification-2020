@@ -4,6 +4,16 @@
   "rules": {
     "prettier/prettier": "error",
     "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "react-hooks/exhaustive-deps": "warn",
     "import/no-unresolved": ["off", { "ignore": [".css$"] }],
     "import/prefer-default-export": "off",

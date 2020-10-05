@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 const SEARCH_PATH = '/search';
+const VIDEOS_PATH = '/videos';
 const KEY = `${process.env.REACT_APP_GOOGLE_API_KEY}`;
 const HEADERS = { Accept: 'application/json' };
 
@@ -27,6 +28,14 @@ export const searchVideos = (searchParam: string) => {
       params: { part: 'snippet', maxResults: 20, q: searchParam },
     })
     .then((res) => res.data.items);
+};
+
+export const getVideobyId = (videoId: string) => {
+  return instance
+    .get(VIDEOS_PATH, {
+      params: { part: 'snippet', id: videoId },
+    })
+    .then((res) => res.data.items[0]);
 };
 
 export const relatedVideos = async (videoId: string) => {
