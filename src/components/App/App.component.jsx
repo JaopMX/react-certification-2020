@@ -7,6 +7,8 @@ import HomePage from '../../pages/Home';
 import LoginPage from '../../pages/Login';
 import NotFound from '../../pages/NotFound';
 import WatchPage from '../../pages/Watch';
+import FavoritesPage from '../../pages/Favorites';
+import Private from '../Private';
 import Layout from '../Layout';
 
 function App() {
@@ -23,6 +25,9 @@ function App() {
               <Route exact path="/login">
                 <LoginPage />
               </Route>
+              <Private exact path="/favorites">
+                <FavoritesPage />
+              </Private>
               <Route path="/watch/:videoId">
                 <WatchPage />
               </Route>
