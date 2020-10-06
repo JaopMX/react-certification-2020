@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
   CardActionArea,
@@ -8,6 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import useStyles from './SmallCard.styles';
 
 interface CardProps {
   thumbnailSrc: string;
@@ -15,25 +15,6 @@ interface CardProps {
   subtitle: string;
   idVideo: string;
 }
-
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    marginBottom: '0.5rem',
-  },
-  details: {
-    display: 'flex',
-    color: 'black',
-  },
-  content: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    padding: 8,
-  },
-  cover: {
-    width: 140,
-  },
-});
 
 const SmallCard = (props: CardProps) => {
   const { thumbnailSrc, title, subtitle, idVideo } = props;
