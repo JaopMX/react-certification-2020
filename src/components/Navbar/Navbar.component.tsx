@@ -96,8 +96,12 @@ const Navbar = () => {
   const isMenuOpen = Boolean(anchorEl);
 
   const fetchData = async () => {
-    const response = await searchVideos(searchParam);
-    setVideos(response);
+    try {
+      const response = await searchVideos(searchParam);
+      setVideos(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   function deAuthenticate(event: React.MouseEvent<HTMLElement>) {

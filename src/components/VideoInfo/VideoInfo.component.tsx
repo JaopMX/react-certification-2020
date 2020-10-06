@@ -27,8 +27,12 @@ const VideoInfo = ({ videoId }: any) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const videoResponse = await getVideobyId(videoId);
-      setVideo(videoResponse);
+      try {
+        const videoResponse = await getVideobyId(videoId);
+        setVideo(videoResponse);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchData();
   }, [videoId]);

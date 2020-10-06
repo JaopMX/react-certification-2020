@@ -10,8 +10,12 @@ function HomePage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await searchVideos('');
-      setVideos(response);
+      try {
+        const response = await searchVideos('');
+        setVideos(response);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchData();
   }, [setVideos]);

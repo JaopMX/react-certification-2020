@@ -15,8 +15,12 @@ const WatchPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const relatedResponse = await relatedVideos(videoId);
-      setRelated(relatedResponse);
+      try {
+        const relatedResponse = await relatedVideos(videoId);
+        setRelated(relatedResponse);
+      } catch (error) {
+        console.error(error);
+      }
     };
     fetchData();
   }, [videoId]);
