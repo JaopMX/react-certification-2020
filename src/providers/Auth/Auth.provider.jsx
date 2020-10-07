@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { AUTH_STORAGE_KEY, USERNAME, PASSWORD, mockedUser } from '../../utils/constants';
 import { storage } from '../../utils/storage';
 
